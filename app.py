@@ -70,10 +70,6 @@ def analyze():
 
     # pre-process the image like mobilenet and resize it to 224x224
     img = pre_process_edgetpu(img, (224, 224, 3))
-    # plt.axis('off')
-    # plt.imshow(img)
-    # plt.show()
-
 
     # create a batch of 1 (that batch size is buned into the saved_model)
     img_batch = np.expand_dims(img, axis=0)
@@ -85,43 +81,15 @@ def analyze():
     first = True
     for r in result:
         if first: 
-            resultStr = labels[str(r)]
+            resultStr = labels[str(r)] + " (" + str(results[0][r]) + ")"
             first = False
-        else:            
-            resultStr =  resultStr + " / " + labels[str(r)]
+        else:     
+            # TODO use proper JSON as result       
+            resultStr =  resultStr + "<br>" + labels[str(r)] + " (" + str(results[0][r]) + ")"
         
         print(r, labels[str(r)], results[0][r])
 
     return resultStr
-
-@app.route("/test", methods=["GET"])
-def test():
-
-    # read the image
-    fname = "Matterhorn.jpg"
-    img = cv2.imread(fname)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-    # pre-process the image like mobilenet and resize it to 224x224
-    img = pre_process_edgetpu(img, (224, 224, 3))
-    # plt.axis('off')
-    # plt.imshow(img)
-    # plt.show()
-
-
-    # create a batch of 1 (that batch size is buned into the saved_model)
-    img_batch = np.expand_dims(img, axis=0)
-
-    # run inference
-    results = ort_session.run(["Softmax:0"], {"images:0": img_batch})[0]
-    result = reversed(results[0].argsort()[-5:])
-    resultStr = ""
-    for r in result:
-        resultStr = resultStr + labels[str(r)] + " / "
-        print(r, labels[str(r)], results[0][r])
-
-    return resultStr
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
