@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 import numpy as np
 import onnxruntime
 
@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 import cv2
 import json
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='/', 
+            static_folder='web')
 
 ort_session = onnxruntime.InferenceSession("efficientnet-lite4-11.onnx")
 
@@ -49,9 +51,9 @@ def center_crop(img, out_height, out_width):
     img = img[top:bottom, left:right]
     return img
 
-@app.route("/")
-def home():
-    return "<h3>EfficientNet-Lite4</h3>"
+@app.route("/", methods=["GET"])
+def index():
+    return redirect("/index.html")
 
 @app.route("/test", methods=["GET"])
 def test():
