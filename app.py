@@ -61,10 +61,11 @@ def analyze():
 
     # read the image
     content = request.files.get('0', '').read()
-    decoded_data = base64.b64decode(content)
-    np_data = np.fromstring(decoded_data, np.uint8)
-    # img = cv2.imdecode(np_data, cv2.IMREAD_UNCHANGED)
-    img = np_data
+
+    # build numpy array from uploaded data
+    img = cv2.imdecode(np.fromstring(content, np.uint8), cv2.IMREAD_UNCHANGED)
+
+    # pre-process, see https://github.com/onnx/models/tree/master/vision/classification/efficientnet-lite4
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     # pre-process the image like mobilenet and resize it to 224x224
