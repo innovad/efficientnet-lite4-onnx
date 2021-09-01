@@ -6,6 +6,7 @@ import math
 import matplotlib.pyplot as plt
 import cv2
 import json
+import base64
 
 app = Flask(__name__,
             static_url_path='/', 
@@ -54,6 +55,37 @@ def center_crop(img, out_height, out_width):
 @app.route("/", methods=["GET"])
 def index():
     return redirect("/index.html")
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+
+    # read the image
+    content = request.files.get('0', '').read()
+    decoded_data = base64.b64decode(content)
+    np_data = np.fromstring(decoded_data, np.uint8)
+    # img = cv2.imdecode(np_data, cv2.IMREAD_UNCHANGED)
+    img = np_data
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    # pre-process the image like mobilenet and resize it to 224x224
+    img = pre_process_edgetpu(img, (224, 224, 3))
+    # plt.axis('off')
+    # plt.imshow(img)
+    # plt.show()
+
+
+    # create a batch of 1 (that batch size is buned into the saved_model)
+    img_batch = np.expand_dims(img, axis=0)
+
+    # run inference
+    results = ort_session.run(["Softmax:0"], {"images:0": img_batch})[0]
+    result = reversed(results[0].argsort()[-5:])
+    resultStr = ""
+    for r in result:
+        resultStr = resultStr + labels[str(r)] + " / "
+        print(r, labels[str(r)], results[0][r])
+
+    return resultStr
 
 @app.route("/test", methods=["GET"])
 def test():
