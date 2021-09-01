@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <meta charset="utf-8"/>
+    <title>ML EfficientNet-Lite4</title>
+    <meta charset="utf-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="script.js" async></script>
@@ -12,15 +13,24 @@
 
     <div class="container-fluid">
         <h1>ML EfficientNet-Lite4</h1>
-        <p>by mosa</p>
+        <p>ONNX Model Demonstration by mosa</p>
 
         <form>
             <div class="form-group">
-                <label for="exampleFormControlFile1">Example file input</label>
-                <input type="file" class="form-control-file" id="image" name="image"
-                    onchange="checkFiles(this.files)">
+                <label for="exampleFormControlFile1">Bitte Bild hochladen (jpeg, png)</label>
+                <input type="file" accept="image/png, image/jpeg" class="form-control-file" id="image" name="image" onchange="checkFiles(this.files);">
             </div>
         </form>
+
+        <div id="answerPart" style="visibility: hidden;">
+            <p><b>Answer:</b>
+            <div id="answer"></div>
+            </p>
+
+            <p id="previewPart"><b>Analyzed Image:</b>
+            <p><img id="preview" width="300" src="#" alt="preview" /></p>
+            </p>
+        </div>
     </div>
 
 

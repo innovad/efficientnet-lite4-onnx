@@ -82,8 +82,14 @@ def analyze():
     results = ort_session.run(["Softmax:0"], {"images:0": img_batch})[0]
     result = reversed(results[0].argsort()[-5:])
     resultStr = ""
+    first = True
     for r in result:
-        resultStr = resultStr + labels[str(r)] + " / "
+        if first: 
+            resultStr = labels[str(r)]
+            first = False
+        else:            
+            resultStr =  resultStr + " / " + labels[str(r)]
+        
         print(r, labels[str(r)], results[0][r])
 
     return resultStr
