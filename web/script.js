@@ -6,7 +6,13 @@ function checkFiles(files) {
         return;
     }
 
-    answerPart.style.visibility = "visible";    
+    const fileSize = files[0].size / 1024 / 1024; // in MiB
+    if (fileSize > 10) {
+        alert("Datei zu gross (max. 10Mb)");
+        return;
+    }
+
+    answerPart.style.visibility = "visible";
     const file = files[0];
 
     // Preview
