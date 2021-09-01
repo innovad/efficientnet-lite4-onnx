@@ -1,5 +1,3 @@
--f https://download.pytorch.org/whl/torch_stable.html
-
 flask==1.1.4
 gunicorn==20.0.4
 onnxruntime==1.8.1
