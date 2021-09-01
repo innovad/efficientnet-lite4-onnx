@@ -1,8 +1,5 @@
 from flask import Flask, request, jsonify
-import torch
 import numpy as np
-from simpletransformers.model import TransformerModel
-from transformers import RobertaForSequenceClassification, RobertaTokenizer
 import onnxruntime
 
 import math
