@@ -2,7 +2,7 @@ tasks:
   - init: |
       pyenv install 3.8.12
       pip install -r requirements.txt
-command: python main.py
+    command: python app.py
 ports:
   - port: 5000
     onOpen: open-browser
