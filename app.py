@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, redirect
+from flask.helpers import send_file, send_from_directory
 import numpy as np
 import onnxruntime
 
@@ -52,9 +53,10 @@ def center_crop(img, out_height, out_width):
     img = img[top:bottom, left:right]
     return img
 
-@app.route("/", methods=["GET"])
-def index():
-    return redirect("/index.html")
+@app.route("/")
+def indexPage():
+    # Haven't used the secure way to send files yet
+    return send_file("web/index.html")    
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
