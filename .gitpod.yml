@@ -2,7 +2,9 @@ tasks:
   - init: |
       pyenv install 3.8.12
       pip install -r requirements.txt
-    command: python app.py
+    command: |
+      python app.py
+      gp preview http://localhost:5000/index.html
 ports:
   - port: 5000
-    onOpen: open-browser
+    onOpen: ignore
