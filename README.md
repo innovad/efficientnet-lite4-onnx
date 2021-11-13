@@ -7,4 +7,4 @@ This is an example using ONNX Efficientnet-lite4 model.
 Leroiiiiiiiiiiiiiiiiiiiiii
 was here
 
-Alles Deppn hier
+Alles Deppn hier i geh hoam
