@@ -1,7 +1,7 @@
 tasks:
   - name: Install and Setup
     init: |
-      pyenv install 3.8.12
+      pyenv install --skip-existing 3.8.12
       pip install -r requirements.txt
     command: python app.py
 ports:
